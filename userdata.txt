@@ -1,5 +1,8 @@
 #cloud-config
 
+manage_etc_hosts: localhost
+hostname: sonicpi
+
 password: thisisterrible
 chpasswd: { expire: False }
 ssh_pwauth: True
@@ -9,9 +12,9 @@ ssh_authorized_keys:
 write_files:
   - content: Acquire::http { Proxy "http://nas.vpn.freunds.net:3142/"; };
     path: /etc/apt/apt.conf.d/00proxy
-    
+
 users:
-  - default  
+  - default
   - name: sonicpi
     ssh_authorized_keys:
       - ssh-rsa ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAgEAkzMrXREnzwL0JF9Dftm2m1bUbhH+D91YmqeYWWGmtlTbr70OEvpLVBy3JnUJWrBgCKxpeT0TLc7ldRRrjnGNbuIpUv7xgw7Rz+JE+D2Zhxtm98EFeTINofLzKttLEddX/jxvzgThUjEKPgMwPJEtCpukifX7p5lG0W1NkSRxR4xRu5VfDusbKAAYYz223oJc/UQjn1GtNWvOiItbitgLnoqIhrTN7m4vUEVouN7NEGyfOu8O4BIDhSvay/wfb8RpAW/jBZOl9K+oTyqxzL38xj/d0ZCt8bWj90BbEKvLBvyL2LZKv4bcm5n8RPjE99yp7e6rYA/YYmqGAlXR6cpsctf4HHd32NOoBr/oVLYVMOZarXVC9GUhj66fp5y7j9Z4yKfsCQQPYU6gGqESJ/tfpDsZqV9uIZwpssCIH2xlLk9amq6EpzV0ZJdjOR2O6bY7pXvole6dF7BSpSkpp8I29rVnVm7Pmlu9q22n5E9wjkvfIWeu+dliTGNaSSKMDd3vL3Msv/iq6trTrioKPO8OJxXB17yxaccNcWOfV+1TDC1FNrZR2QtmDIyjq4h9zbQYnGjQbaBtgzB2PZWDeFfkXqjKtC7qm2VJP5udkqA9VJNon9ZH3oe0QrBcglWw35JhXyiaUjAz6rcXobpxoLx1llp/dW9bJP7/8iG/jPLiNc8= tim@freunds.net
