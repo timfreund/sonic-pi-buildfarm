@@ -12,6 +12,6 @@ images:
   - name: ubuntu-zesty
     os_family: ubuntu
     version: zesty
-  - name: fedora-27
-    os_family: fedora
-    version: 27
+  # - name: fedora-27
+  #   os_family: fedora
+  #   version: 27

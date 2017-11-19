@@ -6,7 +6,7 @@ require 'yaml'
 
 IMAGE_DIRECTORY = File.dirname(__FILE__) + "/cloud-images/"
 
-class Downloader
+class Image
   def download
     if not Dir.exist?(IMAGE_DIRECTORY)
       Dir.mkdir(IMAGE_DIRECTORY)
@@ -24,22 +24,22 @@ class Downloader
   end
 end
 
-class FedoraDownloader < Downloader
-  def initialize(version)
-    @version = version
-  end
+# class FedoraImage < Image
+#   def initialize(version)
+#     @version = version
+#   end
   
-  def image_url
-    # TODO 1.6 and similar versions... 
-    base_url + base_url + "Fedora-Cloud-Base-" + 27 + "-1.6.x86_64.qcow2"
-  end
+#   def image_url
+#     # TODO 1.6 and similar versions... 
+#     base_url + base_url + "Fedora-Cloud-Base-" + 27 + "-1.6.x86_64.qcow2"
+#   end
   
-  def base_url
-    "https://download.fedoraproject.org/pub/fedora/linux/releases/" + 27 + "/CloudImages/x86_64/images/"
-  end
-end
+#   def base_url
+#     "https://download.fedoraproject.org/pub/fedora/linux/releases/" + 27 + "/CloudImages/x86_64/images/"
+#   end
+# end
 
-class UbuntuDownloader < Downloader
+class UbuntuImage < Image
   def initialize(version)
     @version = version
   end
@@ -86,6 +86,12 @@ case ARGV[0]
 when "list"
   for image in image_metadata["images"]
     puts image["name"]
+    i = UbuntuImage.new(image["version"])
+    if File.exists?(IMAGE_DIRECTORY + i.image_file_name)
+      puts "\t present"
+    else
+      puts "\t missing"
+    end
   end
 when "download"
   for name in options[:names]
