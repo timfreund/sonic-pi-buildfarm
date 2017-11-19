@@ -30,7 +30,7 @@ cat >>farm/inventory<<EOF
 
 [sonicpi:vars]
 ansible_user=sonicpi
-ansible_ssh_private_key_file=.ssh/ansible-key
+ansible_ssh_private_key_file=farm/.ssh/id_rsa
 ansible_ssh_common_args="-oStrictHostKeyChecking=no"
 ansible_python_interpreter=/usr/bin/python3
 
