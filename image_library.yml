@@ -1,0 +1,17 @@
+---
+images:
+  - name: ubuntu-artful
+    os_family: ubuntu
+    version: artful
+  - name: ubuntu-trusty
+    os_family: ubuntu
+    version: trusty
+  - name: ubuntu-xenial
+    os_family: ubuntu
+    version: xenial
+  - name: ubuntu-zesty
+    os_family: ubuntu
+    version: zesty
+  - name: fedora-27
+    os_family: fedora
+    version: 27
