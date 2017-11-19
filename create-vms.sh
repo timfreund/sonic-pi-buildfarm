@@ -2,6 +2,7 @@
 
 set -x
 
+IMAGE_ROOT=`pwd`/cloud-images/
 VM_ROOT=/var/lib/libvirt/images
 
 mkdir -p farm/.ssh
