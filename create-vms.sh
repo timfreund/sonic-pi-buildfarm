@@ -14,7 +14,8 @@ fi
 erb ssh_public_key="`cat farm/.ssh/id_rsa.pub`" cloud-init/userdata.txt.erb > userdata.txt
 echo "instance-id: $(uuidgen)" > metadata.txt
 cloud-localds sonicpi-userdata.img userdata.txt metadata.txt
-cp sonicpi-userdata.img ${VM_ROOT}/
+mv sonicpi-userdata.img ${VM_ROOT}/
+rm userdata.txt metadata.txt
 
 for ci in `ls cloud-images/`;
 do
