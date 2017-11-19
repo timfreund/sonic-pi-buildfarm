@@ -4,7 +4,9 @@ This project contains scripts to automate virtual machine management
 for building and testing Sonic Pi on Linux.
 
 It assumes you have virtualization capabilities on your host machine
-including the `virsh` and `virt-install` tools.
+including the `virsh` and `virt-install` tools.  It also assumes you
+have `ruby` (and `erb`) installed, but that's probably not much of
+a stretch if you're looking to run a Sonic Pi build farm.
 
 ## Work in Progress
 
@@ -25,15 +27,12 @@ fleet of run ready images.
 
 ## Running the Farm
 
-Open `create-vms.sh` and update `IMAGE_ROOT` to the place where
-your cloud images live.
+Run `librarian.rb list` to see the images this project knows
+about.  Download one or more with `librarian.rb download`.
 
-Open `userdata.txt` and update the apt proxy configuration to your
-local apt proxy (or delete that section all together).  You'll also
-want to update the SSH key to your own.
-
-Download cloud image files, put them in your IMAGE_ROOT directory,
-and update `cloud-images.txt`.
+Open `cloud-init/userdata.txt.erb` and update the apt proxy
+configuration to your local apt proxy (or delete that section all
+together).
 
 Run `create-vms.sh` as root.
 
@@ -43,9 +42,10 @@ Kinda ugly, right?  Yeah, I know.
 
 ### Image Management
 
-Include metadata in the project to allow the farm to download images
-for itself.  Let the user add or remove images from a list as they
-please, and let the project deal with downloads and updates.
+(Work in Progress) Include metadata in the project to allow the farm
+to download images for itself.  Let the user add or remove images from
+a list as they please, and let the project deal with downloads and
+updates.
 
 ### Automated Builds
 
