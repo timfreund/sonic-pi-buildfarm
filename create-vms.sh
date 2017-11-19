@@ -1,22 +1,31 @@
 #!/usr/bin/env bash
 
-set -xe 
-IMAGE_ROOT=/data/media/iso/cloud
+set -x
+
 VM_ROOT=/var/lib/libvirt/images
 
 echo "instance-id: $(uuidgen)" > metadata.txt
 cloud-localds sonicpi-userdata.img userdata.txt metadata.txt
 cp sonicpi-userdata.img ${VM_ROOT}/
 
-for ci in `cat cloud-images.txt`;
+for ci in `ls cloud-images/`;
 do
     short_name=`echo ${ci} | sed -e 's/-.*//'`
     name=sonicpi-${short_name}
 
-    virsh destroy ${name}
-    rm /tmp/${name}.log
-    
-    virsh undefine ${name}
+    virsh domstate ${name} | grep running >/dev/null
+    if [ $? -eq 0 ]
+    then
+        virsh destroy ${name}
+    fi
+
+    rm -f /tmp/${name}.log
+
+    virsh domstate ${name} > /dev/null 2>&1
+    if [ $? -eq 0 ]
+    then
+        virsh undefine ${name}
+    fi
 
     qemu-img create -f qcow2 -b ${IMAGE_ROOT}/${ci} ${VM_ROOT}/${name}.qcow2
 
@@ -29,6 +38,7 @@ do
                  --check path_in_use=off \
                  --network network=default \
                  --serial file,path=/tmp/${name}.log \
-                 --noautoconsole 
+                 --noautoconsole
+
 done
 
