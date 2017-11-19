@@ -4,6 +4,14 @@ set -x
 
 VM_ROOT=/var/lib/libvirt/images
 
+mkdir -p farm/.ssh
+chmod 700 farm/.ssh
+if [ ! -e farm/.ssh/id_rsa ]
+then
+    ssh-keygen -N "" -f farm/.ssh/id_rsa
+fi
+
+erb ssh_public_key="`cat farm/.ssh/id_rsa.pub`" cloud-init/userdata.txt.erb > userdata.txt
 echo "instance-id: $(uuidgen)" > metadata.txt
 cloud-localds sonicpi-userdata.img userdata.txt metadata.txt
 cp sonicpi-userdata.img ${VM_ROOT}/

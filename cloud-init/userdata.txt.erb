@@ -1,0 +1,20 @@
+#cloud-config
+
+manage_etc_hosts: localhost
+hostname: sonicpi
+
+password: thisisterrible
+chpasswd: { expire: False }
+ssh_pwauth: True
+ssh_authorized_keys:
+    - <%= ssh_public_key %>
+
+write_files:
+  - content: Acquire::http { Proxy "http://nas.vpn.freunds.net:3142/"; };
+    path: /etc/apt/apt.conf.d/00proxy
+
+users:
+  - default
+  - name: sonicpi
+    ssh_authorized_keys:
+      - <%= ssh_public_key %>
