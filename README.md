@@ -34,9 +34,7 @@ Open `cloud-init/userdata.txt.erb` and update the apt proxy
 configuration to your local apt proxy (or delete that section all
 together).
 
-Run `create-vms.sh` as root.
-
-Kinda ugly, right?  Yeah, I know.
+Run `create-vms.sh`.
 
 ## Next Steps
 
