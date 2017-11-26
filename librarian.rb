@@ -80,7 +80,7 @@ opt_parser = OptionParser.new do |opt|
   end
 end.parse!
 
-image_metadata = YAML.load(File.read(File.dirname(__FILE__) + "/image_library.yml"))
+image_metadata = YAML.load(File.read(File.dirname(__FILE__) + "/cloud-image-library.yml"))
 
 case ARGV[0]
 when "list"
