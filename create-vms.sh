@@ -40,6 +40,11 @@ do
         virsh undefine ${name}
     fi
 
+    virsh vol-list ${LIBVIRT_POOL_NAME} | grep ${name}.qcow2 >/dev/null
+    if [ $? -ne 0 ]
+    then
+        virsh vol-create-as default ${name}.qcow2 0 --format qcow2
+    fi
     virsh vol-upload ${name}.qcow2 ${IMAGE_ROOT}/${ci} --pool ${LIBVIRT_POOL_NAME}
     virsh vol-resize ${name}.qcow2 10G --pool ${LIBVIRT_POOL_NAME}
     # virsh start ${name}
