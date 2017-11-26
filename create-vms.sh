@@ -41,7 +41,7 @@ do
     fi
 
     virsh vol-upload ${name}.qcow2 ${IMAGE_ROOT}/${ci} --pool ${LIBVIRT_POOL_NAME}
-
+    virsh vol-resize ${name}.qcow2 10G --pool ${LIBVIRT_POOL_NAME}
     # virsh start ${name}
     virt-install --name ${name} \
                  --memory 1024 --vcpus 1 \
