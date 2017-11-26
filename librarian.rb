@@ -99,7 +99,7 @@ when "download"
     for image in image_metadata["images"]
       if image["name"] == name
         found = true
-        UbuntuDownloader.new(image["version"]).download
+        UbuntuImage.new(image["version"]).download
       end
     end
     if not found
