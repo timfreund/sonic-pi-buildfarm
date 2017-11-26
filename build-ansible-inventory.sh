@@ -35,3 +35,7 @@ ansible_ssh_common_args="-oStrictHostKeyChecking=no"
 ansible_python_interpreter=/usr/bin/python3
 
 EOF
+
+mkdir -p farm/buildbot
+cp buildbot-master.cfg farm/buildbot/master.cfg
+cat farm/inventory | grep ansible_host | sed -e 's/ .*//' > farm/buildbot/builders
