@@ -1,0 +1,26 @@
+---
+- hosts: all
+  become: yes
+  strategy: free
+  
+  tasks:
+    - name: Install prerequisites
+      action: >
+        {{ ansible_pkg_mgr }} name={{ item }} state=present update_cache=yes
+      with_items:
+        - build-essential
+        - git
+        - tmux
+        - buildbot-slave
+    - name: Create buildbot worker
+      become_user: sonicpi
+      shell: |
+        ps -ef | grep buildslave | grep -v grep | awk '{print $2;}' | xargs kill -9
+        rm -rf buildbot-sonicpi
+        buildslave create-slave buildbot-sonicpi 172.22.0.2:9989 {{ inventory_hostname }} anotherpasswordtoextract
+        lsb_release -d | sed -e 's/.*:[ \t]*//' > ./buildbot-sonicpi/info/host
+    - name: Start buildbot worker
+      become_user: sonicpi
+      shell: |
+        buildslave start buildbot-sonicpi
+
