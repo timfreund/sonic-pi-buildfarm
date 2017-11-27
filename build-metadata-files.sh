@@ -39,3 +39,6 @@ EOF
 mkdir -p farm/buildbot
 cp buildbot-master.cfg farm/buildbot/master.cfg
 cat farm/inventory | grep ansible_host | sed -e 's/ .*//' > farm/buildbot/builders
+
+docker-compose up -d
+docker inspect `basename $PWD`_buildbot_1 | grep IPAddress | grep 172 | sed -e 's/.* "//' -e 's/".*//' -e 's/^/buildbot_server_ip=/' >> farm/inventory
