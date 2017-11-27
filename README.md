@@ -3,10 +3,15 @@
 This project contains scripts to automate virtual machine management
 for building and testing Sonic Pi on Linux.
 
-It assumes you have virtualization capabilities on your host machine
-including the `virsh` and `virt-install` tools.  It also assumes you
-have `ruby` (and `erb`) installed, but that's probably not much of
-a stretch if you're looking to run a Sonic Pi build farm.
+It assumes that the following commands all exist and your user has
+permission to run them:
+
+- docker-compose
+- erb
+- python -m venv
+- ruby
+- virsh
+- virt-install
 
 ## Work in Progress
 
@@ -35,6 +40,12 @@ configuration to your local apt proxy (or delete that section all
 together).
 
 Run `create-vms.sh`.
+
+Run `build-metadata-files.sh`
+
+Run `configure-vms.sh`.
+
+Open [buildbot](http://localhost:8080/)
 
 ## Next Steps
 
