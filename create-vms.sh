@@ -49,7 +49,7 @@ do
     virsh vol-resize ${name}.qcow2 10G --pool ${LIBVIRT_POOL_NAME}
     # virsh start ${name}
     virt-install --name ${name} \
-                 --memory 1024 --vcpus 1 \
+                 --memory 2048 --vcpus 1 \
                  --import \
                  --disk vol=${LIBVIRT_POOL_NAME}/${name}.qcow2,bus=sata \
                  --disk vol=${LIBVIRT_POOL_NAME}/sonicpi-userdata.img,device=cdrom \
