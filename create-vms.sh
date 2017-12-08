@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+for command in virsh cloud-localds; do
+  if ! which $command ; then
+    echo "ERROR: Command not found: ${command}.  Exiting"
+    exit 1
+  fi
+done
+
+set -e
 set -x
 
 IMAGE_ROOT=`pwd`/cloud-images/
@@ -18,6 +26,12 @@ fi
 erb ssh_public_key="`cat farm/.ssh/id_rsa.pub`" cloud-init/userdata.txt.erb > userdata.txt
 echo "instance-id: $(uuidgen)" > metadata.txt
 cloud-localds sonicpi-userdata.img userdata.txt metadata.txt
+
+if virsh vol-list default | grep sonicpi-userdata.img ; then
+  virsh vol-delete sonicpi-userdata.img default
+fi
+
+virsh vol-create-as default sonicpi-userdata.img 0
 virsh vol-upload sonicpi-userdata.img sonicpi-userdata.img --pool ${LIBVIRT_POOL_NAME}
 rm userdata.txt metadata.txt
 
@@ -26,15 +40,14 @@ do
     short_name=`echo ${ci} | sed -e 's/-.*//'`
     name=sonicpi-${short_name}
 
-    virsh domstate ${name} | grep running >/dev/null
+    virsh list | grep ${name} && virsh domstate ${name} | grep running >/dev/null
     if [ $? -eq 0 ]
     then
         virsh destroy ${name}
     fi
-
     rm -f /tmp/${name}.log
 
-    virsh domstate ${name} > /dev/null 2>&1
+    virsh list | grep ${name} && virsh domstate ${name} > /dev/null 2>&1
     if [ $? -eq 0 ]
     then
         virsh undefine ${name}
