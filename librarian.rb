@@ -22,18 +22,22 @@ class Image
       system "curl -o " + download_location + " " + image_url
     end
   end
+
+  def image_url
+    base_url + image_file_name
+  end
 end
 
 # class FedoraImage < Image
 #   def initialize(version)
 #     @version = version
 #   end
-  
+
 #   def image_url
-#     # TODO 1.6 and similar versions... 
+#     # TODO 1.6 and similar versions...
 #     base_url + base_url + "Fedora-Cloud-Base-" + 27 + "-1.6.x86_64.qcow2"
 #   end
-  
+
 #   def base_url
 #     "https://download.fedoraproject.org/pub/fedora/linux/releases/" + 27 + "/CloudImages/x86_64/images/"
 #   end
@@ -54,10 +58,6 @@ class UbuntuImage < Image
 
   def image_file_name
     @version + "-server-cloudimg-amd64.img"
-  end 
-  
-  def image_url
-    base_url + image_file_name
   end
 end
 
@@ -68,10 +68,11 @@ opt_parser = OptionParser.new do |opt|
   opt.banner = "Usage: librarian.rb COMMAND [OPTIONS]"
   opt.separator "  Commands"
   opt.separator "    download: download the latest image for a given named image"
+  opt.separator "    download-all: download all images"
   opt.separator "    list: list all known image (from images.yml)"
   opt.separator ""
   opt.separator "Options"
-  
+
   opt.on("-n", "--name [NAME]", "Image name to act on") do |name|
     if options[:names].nil?
       options[:names] = []
@@ -105,6 +106,10 @@ when "download"
     if not found
       puts name + " not found in the image library"
     end
+  end
+when "download-all"
+  for image in image_metadata["images"]
+    UbuntuImage.new(image["version"]).download
   end
 else
   puts "Unknown command"
