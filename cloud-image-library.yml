@@ -1,17 +1,11 @@
 ---
 images:
-  - name: ubuntu-artful
+  - name: ubuntu-bionic
     os_family: ubuntu
-    version: artful
-  - name: ubuntu-trusty
-    os_family: ubuntu
-    version: trusty
+    version: bionic
   - name: ubuntu-xenial
     os_family: ubuntu
     version: xenial
-  - name: ubuntu-zesty
-    os_family: ubuntu
-    version: zesty
   # - name: fedora-27
   #   os_family: fedora
   #   version: 27
