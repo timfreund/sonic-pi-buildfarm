@@ -14,7 +14,7 @@ permission to run them:
 - virt-install
 - cloud-localds
 
-On ubuntu, `sudo libvirt-clients virtinst cloud-image-utils`
+On ubuntu, `sudo apt install ruby libvirt-clients libvirt-daemon-system virtinst cloud-image-utils`
 
 ## Work in Progress
 
