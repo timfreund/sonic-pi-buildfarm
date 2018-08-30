@@ -27,6 +27,11 @@ erb ssh_public_key="`cat farm/.ssh/id_rsa.pub`" cloud-init/userdata.txt.erb > us
 echo "instance-id: $(uuidgen)" > metadata.txt
 cloud-localds sonicpi-userdata.img userdata.txt metadata.txt
 
+line_count=`virsh pool-list | grep ${LIBVIRT_POOL_NAME} | wc -l`
+if [ ${line_count} -eq 0 ]; then
+    virsh pool-create-as --name ${LIBVIRT_POOL_NAME} --type dir --target ${VM_ROOT}
+fi
+
 if virsh vol-list default | grep sonicpi-userdata.img ; then
   virsh vol-delete sonicpi-userdata.img default
 fi
@@ -53,8 +58,8 @@ do
         virsh undefine ${name}
     fi
 
-    virsh vol-list ${LIBVIRT_POOL_NAME} | grep ${name}.qcow2 >/dev/null
-    if [ $? -ne 0 ]
+    vol_count=`virsh vol-list ${LIBVIRT_POOL_NAME} | grep ${name}.qcow2 | wc -l`
+    if [ ${vol_count} -eq 0 ]
     then
         virsh vol-create-as default ${name}.qcow2 0 --format qcow2
     fi
