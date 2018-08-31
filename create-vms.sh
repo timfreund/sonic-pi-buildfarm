@@ -52,7 +52,7 @@ do
     fi
     rm -f /tmp/${name}.log
 
-    virsh list | grep ${name} && virsh domstate ${name} > /dev/null 2>&1
+    virsh list --all | grep ${name} && virsh domstate ${name} > /dev/null 2>&1
     if [ $? -eq 0 ]
     then
         virsh undefine ${name}
