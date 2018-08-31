@@ -57,6 +57,11 @@ class UbuntuImage < Image
   end
 
   def image_file_name
+    # TODO: once xenial isn't supported this special case can go away.
+    # ... or we could store more metadata in the yml file...
+    if @version == "xenial"
+      return @version + "-server-cloudimg-amd64-disk1.img"
+    end
     @version + "-server-cloudimg-amd64.img"
   end
 end
